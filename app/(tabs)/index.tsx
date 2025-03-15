@@ -1,74 +1,164 @@
-import { Image, StyleSheet, Platform } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, View, Text, FlatList, TouchableOpacity, SafeAreaView, Image } from 'react-native';
+import { IconSymbol } from '@/components/ui/IconSymbol';
 
-import { HelloWave } from '@/components/HelloWave';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
+const PRODUCTS = [
+  { 
+    id: '1', 
+    name: 'Product 1', 
+    price: 10,
+    image: 'https://images.unsplash.com/photo-1523206489230-c012c64b2b48?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+  },
+  { 
+    id: '2', 
+    name: 'Product 2', 
+    price: 20,
+    image: 'https://images.unsplash.com/photo-1588131153911-a4ea5189fe19?q=80&w=1481&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+  },
+  { 
+    id: '3', 
+    name: 'Product 3', 
+    price: 15,
+    image: 'https://images.unsplash.com/photo-1575311373937-040b8e1fd5b6?q=80&w=1488&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+  },
+];
 
-export default function HomeScreen() {
-  return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
+export default function App() {
+  const [cart, setCart] = useState([]);
+
+  const addToCart = (product) => {
+    setCart((prevCart) => [...prevCart, product]);
+  };
+
+  const renderItem = ({ item }) => (
+    <View style={styles.productItem}>
+      {item.image && (
+        <Image 
+          source={{ uri: item.image }} 
+          style={styles.productImage}
+          resizeMode="cover"
         />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12'
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          Tap the Explore tab to learn more about what's included in this starter app.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          When you're ready, run{' '}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+      )}
+      <Text style={styles.productName}>{item.name}</Text>
+      <Text style={styles.productPrice}>${item.price}</Text>
+      <TouchableOpacity style={styles.addButton} onPress={() => addToCart(item)}>
+        <Text style={styles.buttonText}>Add to Cart</Text>
+      </TouchableOpacity>
+    </View>
+  );
+
+  const getTotal = () => cart.reduce((total, product) => total + product.price, 0);
+
+  return (
+    <SafeAreaView style={styles.container}>
+      <View style={styles.header}>
+        <Text style={styles.title}>Shopping Cart</Text>
+        <View style={styles.cartIconContainer}>
+          <IconSymbol name="cart.fill" size={24} color="#fff" />
+          <View style={styles.cartBadge}>
+            <Text style={styles.cartBadgeText}>{cart.length}</Text>
+          </View>
+        </View>
+      </View>
+      <FlatList
+        data={PRODUCTS}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.id}
+        contentContainerStyle={styles.productList}
+      />
+      <View style={styles.cart}>
+        <Text style={styles.cartText}>Items in Cart: {cart.length}</Text>
+        <Text style={styles.cartText}>Total: ${getTotal()}</Text>
+      </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+  },
+  header: {
+    backgroundColor: '#FFA500',
+    padding: 15,
     alignItems: 'center',
-    gap: 8,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
+  title: {
+    fontSize: 24,
+    color: '#fff',
+    fontWeight: 'bold',
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
+  productList: {
+    padding: 10,
+  },
+  productItem: {
+    backgroundColor: '#fff',
+    borderWidth: 1,
+    borderColor: '#FFA500',
+    borderRadius: 8,
+    padding: 15,
+    marginVertical: 5,
+    marginHorizontal: 10,
+  },
+  productImage: {
+    width: '100%',
+    height: 200,
+    borderRadius: 8,
+    marginBottom: 10,
+  },
+  productName: {
+    fontSize: 18,
+    color: '#333',
+  },
+  productPrice: {
+    fontSize: 16,
+    marginVertical: 5,
+    color: '#333',
+  },
+  addButton: {
+    backgroundColor: '#FFA500',
+    padding: 10,
+    borderRadius: 5,
+    alignItems: 'center',
+  },
+  buttonText: {
+    color: '#fff',
+    fontWeight: 'bold',
+  },
+  cart: {
+    backgroundColor: '#fff',
+    borderTopWidth: 1,
+    borderColor: '#FFA500',
+    padding: 15,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  cartText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#333',
+  },
+  cartIconContainer: {
+    position: 'relative',
+    padding: 5,
+  },
+  cartBadge: {
     position: 'absolute',
+    right: -5,
+    top: -5,
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    minWidth: 20,
+    height: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  cartBadgeText: {
+    color: '#FFA500',
+    fontSize: 12,
+    fontWeight: 'bold',
   },
 });
