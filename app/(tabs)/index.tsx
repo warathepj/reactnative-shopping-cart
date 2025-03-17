@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { StyleSheet, View, Text, FlatList, TouchableOpacity, SafeAreaView, Image } from 'react-native';
 import { IconSymbol } from '@/components/ui/IconSymbol';
+import { useRouter } from 'expo-router';
+import { useCart } from '@/context/CartContext';
 
 const PRODUCTS = [
   { 
@@ -24,11 +26,8 @@ const PRODUCTS = [
 ];
 
 export default function App() {
-  const [cart, setCart] = useState([]);
-
-  const addToCart = (product) => {
-    setCart((prevCart) => [...prevCart, product]);
-  };
+  const router = useRouter();
+  const { cart, addToCart } = useCart();
 
   const renderItem = ({ item }) => (
     <View style={styles.productItem}>
@@ -53,12 +52,15 @@ export default function App() {
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.title}>Shopping Cart</Text>
-        <View style={styles.cartIconContainer}>
+        <TouchableOpacity 
+          style={styles.cartIconContainer}
+          onPress={() => router.push('/cart')}
+        >
           <IconSymbol name="cart.fill" size={24} color="#fff" />
           <View style={styles.cartBadge}>
             <Text style={styles.cartBadgeText}>{cart.length}</Text>
           </View>
-        </View>
+        </TouchableOpacity>
       </View>
       <FlatList
         data={PRODUCTS}
