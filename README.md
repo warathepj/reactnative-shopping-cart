@@ -1,50 +1,86 @@
-# Welcome to your Expo app 👋
+# Shopping Cart App
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+A modern shopping cart application built with Expo and React Native, featuring a clean UI.
 
-## Get started
+## Features
 
-1. Install dependencies
+- 📱 Cross-platform (iOS, Android, Web) support
+- 🛍️ Product listing with images
+- 🛒 Shopping cart functionality
+- 🔄 File-based routing with Expo Router
+- 💫 Smooth animations and transitions
+- 🔒 TypeScript for type safety
+
+## Prerequisites
+
+- Node.js (version 18 or higher)
+- npm or yarn
+- Expo CLI
+- iOS Simulator (for iOS) or Android Studio (for Android)
+
+## Installation
+
+1. Clone the repository:
+
+   ```bash
+   git clone https://github.com/warathepj/reactnative-shopping-cart.git
+   cd reactnative-shopping-cart
+   ```
+
+2. Install dependencies:
 
    ```bash
    npm install
    ```
 
-2. Start the app
-
+3. Start the development server:
    ```bash
-    npx expo start
+   npx expo start
    ```
 
-In the output, you'll find options to open the app in a
+## Project Structure
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
+```
+shopping-cart/
+├── app/                   # Main application screens
+│   ├── (tabs)/           # Tab-based navigation screens
+│   └── _layout.tsx       # Root layout configuration
+├── components/           # Reusable UI components
+├── constants/           # App-wide constants
+├── context/            # React Context providers
+├── hooks/              # Custom React hooks
+└── assets/            # Images, fonts, and other static files
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+## Usage
 
-## Learn more
+- The app opens to the main product listing screen
+- Tap "Add to Cart" to add items to your shopping cart
+- Navigate to the cart screen to view your items
+- Remove items or proceed to checkout
+- Use the tab bar for navigation between screens
 
-To learn more about developing your project with Expo, look at the following resources:
+## Development
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+To start development:
 
-## Join the community
+1. Run the development server:
 
-Join our community of developers creating universal apps.
+   ```bash
+   npm start
+   ```
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+2. Choose your platform:
+   - Press `i` for iOS simulator
+   - Press `a` for Android emulator
+   - Press `w` for web browser
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Acknowledgments
+
+- Built with [Expo](https://expo.dev)
+- Uses [Expo Router](https://docs.expo.dev/router/introduction/) for navigation
+- Icons from [@expo/vector-icons](https://docs.expo.dev/guides/icons/)
